@@ -1,0 +1,26 @@
+body {
+
+}
+
+header {
+  width: 960px;
+  margin: 0 auto;
+}
+
+h1 {
+
+}
+
+main {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.random-images {
+  text-align: center;
+}
+
+main img {
+  width: 300px;
+  height: 300px;
+}
