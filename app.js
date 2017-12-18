@@ -36,6 +36,10 @@ function Product(name) {
   this.timesClicked = 0;
   this.prevDisplayed = false;
   allProducts.push(this);
+  this.click = function(){
+    this.timesClicked ++;
+    this.prevDisplayed = true;
+  }
 };
 
 function createProducts() {
@@ -57,12 +61,9 @@ function renderImages() {
   console.log('image3', image3.src);
 };
 
-function click(event) {
-  event.preventDefault();
-
-
-};
-
 createProducts();
 console.log(allProducts);
 renderImages();
+image1.addEventListener('click', click);
+image2.addEventListener('click', click);
+image3.addEventListener('click', click);
