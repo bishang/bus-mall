@@ -57,6 +57,12 @@ function renderImages() {
   console.log('image3', image3.src);
 };
 
+function click(event) {
+  event.preventDefault();
+
+
+};
+
 createProducts();
 console.log(allProducts);
 renderImages();
