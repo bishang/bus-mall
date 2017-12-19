@@ -6,12 +6,14 @@ Product.allProducts = [];
 
 var totalClicks = 0;
 
+var imageContainer = document.getElementById('random-images');
 var image1 = document.getElementById('image1');
 var image2 = document.getElementById('image2');
 var image3 = document.getElementById('image3');
 var img1;
 var img2;
 var img3;
+var results = document.getElementById('results');
 
 function Product(name) {
   this.name = name;
@@ -32,31 +34,56 @@ function random() {
   return Math.floor(Math.random() * (Product.allProducts.length)); // via MDN docs
 };
 
+// Displays 3 Different Random Images
 function renderImages() {
   img1 = random();
+  while(Product.allProducts[img1].prevDisplayed === true) {
+    img1 = random();
+  };
   console.log('img1', img1);
   image1.src = Product.allProducts[img1].path;
   console.log('image1', image1.src);
+  Product.allProducts[img1].prevDisplayed = true;
+  Product.allProducts[img1].timesDisplayed ++;
+
   img2 = random();
-  while (img1 === img2) {
+  while (img1 === img2 || Product.allProducts[img2].prevDisplayed === true) {
     img2 = random();
   };
   console.log('img2', img2);
   image2.src = Product.allProducts[img2].path;
   console.log('image2', image2.src);
+  Product.allProducts[img2].prevDisplayed = true;
+  Product.allProducts[img2].timesDisplayed ++;
+
   img3 = random();
-  while (img3 === img1 || img3 === img2) {
+  while (img3 === img1 || img3 === img2 || Product.allProducts[img3].prevDisplayed === true) {
     img3 = random();
   };
   console.log('img3', img3);
   image3.src = Product.allProducts[img3].path;
   console.log('image3', image3.src);
+  Product.allProducts[img3].prevDisplayed = true;
+  Product.allProducts[img3].timesDisplayed ++;
+};
+
+function imageClick(event) {
+  if(event.target.id === 'image1') {
+    Product.allProducts[img1].timesClicked ++;
+  };
+  if(event.target.id === 'image2') {
+    Product.allProducts[img2].timesClicked ++;
+  };
+  if(event.target.id === 'image3') {
+    Product.allProducts[img3].timesClicked ++;
+  };
+  Product.allProducts[img1].prevDisplayed = false;
+  Product.allProducts[img2].prevDisplayed = false;
+  Product.allProducts[img3].prevDisplayed = false;
+  renderImages();
+  totalClicks ++;
 };
 
 createProducts();
-console.log(Product.allProducts);
 renderImages();
-
-// image1.addEventListener('click', click);
-// image2.addEventListener('click', click);
-// image3.addEventListener('click', click);
+imageContainer.addEventListener('click', imageClick);
