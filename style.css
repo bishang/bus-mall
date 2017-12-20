@@ -16,8 +16,9 @@ main {
   margin: 0 auto;
 }
 
-.random-images {
+#random-images {
   text-align: center;
+  display: none;
 }
 
 main img {

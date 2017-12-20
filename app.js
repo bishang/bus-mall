@@ -32,11 +32,6 @@ function createProducts() {
   };
 };
 
-function createProductClicksArr() {
-  for(var i = 0; i < productNames.length; i++) {
-    productClicks.push(Product.allProducts[i].timesClicked);
-  };
-};
 
 function random() {
   return Math.floor(Math.random() * (Product.allProducts.length)); // via MDN docs
@@ -45,6 +40,7 @@ function random() {
 // Displays 3 Different Random Images
 function renderImages() {
   if(allowedClicks > 0) {
+    imageContainer.style.display = 'block';
     img1 = random();
     while(Product.allProducts[img1].prevDisplayed === true) {
       img1 = random();
@@ -75,6 +71,7 @@ function renderImages() {
     Product.allProducts[img3].prevDisplayed = true;
     Product.allProducts[img3].timesDisplayed ++;
   } else if(allowedClicks === 0) {
+    createProductClicksArr();
     displayResults();
   };
 };
@@ -96,44 +93,60 @@ function imageClick(event) {
   Product.allProducts[img3].prevDisplayed = false;
 };
 
+function createProductClicksArr() {
+  for(var i = 0; i < productNames.length; i++) {
+    productClicks.push(Product.allProducts[i].timesClicked);
+  };
+  localStorage.totals = productClicks;
+};
+
 function displayResults() {
-  createProductClicksArr();
+  chart();
   resultsContainer.style.display = 'block';
   imageContainer.style.display = 'none';
+};
+
+function load() {
+  if(localStorage.totals) {
+    var productClicks = localStorage.totals.split(',');
+    displayResults();
+  } else {
+      var productClicks = [];
+      renderImages();
+  };
 };
 
 
 // ------------------------
 //         CHART
 // ------------------------
-
-var ctx = document.getElementById('chart').getContext('2d');
-var myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: productNames,
-        datasets: [{
-            label: '# of Votes',
-            data: productClicks,
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
-
+function chart() {
+  var ctx = document.getElementById('chart').getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: productNames,
+          datasets: [{
+              label: '# of Votes',
+              data: localStorage.totals.split(','),
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero:true
+                  }
+              }]
+          }
+      }
+  });
+};
 // ------------------------
 //      END OF CHART
 // ------------------------
 
 createProducts();
-renderImages();
-
+load();
 imageContainer.addEventListener('click', imageClick);
