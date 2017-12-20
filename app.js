@@ -15,6 +15,9 @@ var image3 = document.getElementById('image3');
 var img1;
 var img2;
 var img3;
+var shown1 = 0;
+var shown2 = 0;
+var shown3 = 0;
 var results = document.getElementById('results');
 
 function Product(name) {
@@ -45,30 +48,36 @@ function random() {
 // Displays 3 Different Random Images
 function renderImages() {
   if(allowedClicks > 0) {
+    Product.allProducts[shown1].prevDisplayed = false;
     img1 = random();
     while(Product.allProducts[img1].prevDisplayed === true) {
       img1 = random();
     };
+    shown1 = img1;
     console.log('img1', img1);
     image1.src = Product.allProducts[img1].path;
     console.log('image1', image1.src);
     Product.allProducts[img1].prevDisplayed = true;
     Product.allProducts[img1].timesDisplayed ++;
 
+    Product.allProducts[shown2].prevDisplayed = false;
     img2 = random();
     while (img1 === img2 || Product.allProducts[img2].prevDisplayed === true) {
       img2 = random();
     };
+    shown2 = img2;
     console.log('img2', img2);
     image2.src = Product.allProducts[img2].path;
     console.log('image2', image2.src);
     Product.allProducts[img2].prevDisplayed = true;
     Product.allProducts[img2].timesDisplayed ++;
 
+    Product.allProducts[shown3].prevDisplayed = false;
     img3 = random();
     while (img3 === img1 || img3 === img2 || Product.allProducts[img3].prevDisplayed === true) {
       img3 = random();
     };
+    shown3 = img3;
     console.log('img3', img3);
     image3.src = Product.allProducts[img3].path;
     console.log('image3', image3.src);
