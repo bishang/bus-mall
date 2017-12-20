@@ -89,9 +89,6 @@ function imageClick(event) {
   if(event.target.id === 'image3') {
     Product.allProducts[img3].timesClicked ++;
   };
-  Product.allProducts[img1].prevDisplayed = false;
-  Product.allProducts[img2].prevDisplayed = false;
-  Product.allProducts[img3].prevDisplayed = false;
   renderImages();
   allowedClicks --;
 };
@@ -100,6 +97,37 @@ function displayResults() {
   createProductClicksArr();
   resultsContainer.style.display = 'block';
 };
+
+
+// ------------------------
+//         CHART
+// ------------------------
+
+var ctx = document.getElementById('chart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: productNames,
+        datasets: [{
+            label: '# of Votes',
+            data: productClicks,
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+// ------------------------
+//      END OF CHART
+// ------------------------
 
 createProducts();
 renderImages();
